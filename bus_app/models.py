@@ -10,8 +10,14 @@ class Terminal(models.Model):
 
 class Ticket(models.Model):
     title = models.CharField(max_length=100)
-    source = models.ForeignKey(Terminal, on_delete=models.CASCADE)
-    destination = models.ForeignKey(Terminal, on_delete=models.CASCADE)
+    source = models.ForeignKey(
+        Terminal, 
+        on_delete=models.CASCADE, 
+        related_name='ticket_source')
+    destination = models.ForeignKey(
+        Terminal, 
+        on_delete=models.CASCADE,
+        related_name='ticket_destinatio')
     date = models.DateField()
     time = models.TimeField()
     price = models.IntegerField()

@@ -1,3 +1,17 @@
-from django.contrib import admin
+from django.contrib.admin import register, ModelAdmin
+from bus_app.models import Terminal, Ticket, Sale
 
-# Register your models here.
+
+@register(Terminal)
+class TerminalAdmin(ModelAdmin):
+    pass 
+
+
+@register(Ticket)
+class TicketAdmin(ModelAdmin):
+    pass 
+
+
+@register(Sale)
+class SaleAdmin(ModelAdmin):
+    pass 
