@@ -4,12 +4,32 @@ from bus_app.models import Terminal, Ticket, Sale
 
 @register(Terminal)
 class TerminalAdmin(ModelAdmin):
-    pass 
+    list_display = [
+        'name',
+        'open_time',
+        'close_time'
+    ]
+    search_fields = [
+        'name'
+    ]
 
 
 @register(Ticket)
 class TicketAdmin(ModelAdmin):
-    pass 
+    list_display = [
+        'title',
+        'source',
+        'destination',
+        'date',
+        'time'
+    ] 
+    search_fields = [
+        'title'
+    ]
+    list_filter = [
+        'date',
+        'source',
+    ]
 
 
 @register(Sale)
