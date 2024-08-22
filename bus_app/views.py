@@ -1,9 +1,14 @@
 from django.http.response import HttpResponse, JsonResponse
-from bus_app.models import Ticket
+from bus_app.models import Ticket, Terminal
+from django.shortcuts import render
 
 
 def welcome(request):
-    return HttpResponse("Welcome to Bus page")
+    # return HttpResponse("Welcome to Bus page")
+    return render(
+        request, 
+        'bus_app/welcome.html'
+    )
 
 
 def ticket_list(request):
@@ -47,3 +52,13 @@ def ticket_list3(request, input_source):
         }
         my_ticket_list.append(ticket_dictionary)
     return JsonResponse(my_ticket_list, safe=False)
+
+
+def terminal_list(request):
+    terminals = Terminal.objects.all()
+
+    return render(
+        request, 
+        'bus_app/terminal_list.html', 
+        context={'terminals':terminals}
+        )

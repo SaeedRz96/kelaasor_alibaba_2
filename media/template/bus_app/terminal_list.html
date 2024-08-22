@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>This is Terminal list</h1>
+    {% for item in terminals %}
+    {{item.name}} | {{item.address}} | {{item.open_time}} | {{item.close_time}}
+    <br>
+    {% endfor %}
+</body>
+</html>
