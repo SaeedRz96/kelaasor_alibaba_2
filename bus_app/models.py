@@ -30,6 +30,7 @@ class Ticket(models.Model):
     date = models.DateField()
     time = models.TimeField()
     price = models.IntegerField()
+    capacity = models.IntegerField(default=10)
 
 
 class Sale(models.Model):

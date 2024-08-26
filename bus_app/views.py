@@ -1,6 +1,8 @@
-from django.http.response import HttpResponse, JsonResponse
-from bus_app.models import Ticket, Terminal
+from django.http.response import HttpResponse, JsonResponse, HttpResponseBadRequest
+from bus_app.models import Ticket, Terminal, Sale
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 def welcome(request):
@@ -16,6 +18,7 @@ def ticket_list(request):
     my_ticket_list = []
     for item in tickets:
         ticket_dictionary = {
+            "ID" : item.id,
             "title" : item.title,
             "source" : item.source.name,
             "destination" : item.destination.name
@@ -62,3 +65,44 @@ def terminal_list(request):
         'bus_app/terminal_list.html', 
         context={'terminals':terminals}
         )
+
+
+def sale(request, input_name, input_phone, input_ticket):
+    selected_ticket = Ticket.objects.get(id=input_ticket)
+    if selected_ticket.capacity == 0:
+        return HttpResponse("No Capacity")
+    new_sale = Sale.objects.create(
+        name= input_name,
+        phone= input_phone,
+        ticket = selected_ticket
+    )
+    selected_ticket.capacity -= 1
+    selected_ticket.save()
+    return HttpResponse("new ticket with name: {}".format(new_sale.name))
+
+@csrf_exempt
+def new_sale(request):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        selected_ticket = Ticket.objects.get(id=body['input_ticket'])
+        if selected_ticket.capacity == 0:
+            return HttpResponse("No Capacity")
+        Sale.objects.create(
+            name= body['input_name'],
+            phone= body['input_phone'],
+            ticket = selected_ticket
+        )
+        selected_ticket.capacity -= 1
+        selected_ticket.save()
+        return HttpResponse("new ticket reserved")
+    else:
+        return HttpResponse("BAD REQUEST")
+
+
+@csrf_exempt
+def delete_sale(request, sale_id):
+    if request.method == 'DELETE':
+        Sale.objects.get(id=sale_id).delete()
+        return HttpResponse("Sale Deleted")
+    else:
+        return HttpResponse("Bad Request")
