@@ -1,4 +1,4 @@
-from .models import Ticket, Terminal
+from .models import Ticket, Terminal, Sale
 from rest_framework.serializers import ModelSerializer
 
 
@@ -18,3 +18,9 @@ class TerminalSerializer(ModelSerializer):
     class Meta:
         model = Terminal
         fields = "__all__"
+
+
+class SaleSerializer(ModelSerializer):
+    class Meta:
+        model = Sale
+        fields = '__all__'

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Terminal(models.Model):
@@ -34,6 +35,5 @@ class Ticket(models.Model):
 
 
 class Sale(models.Model):
-    name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=12)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, on_delete=models.PROTECT)

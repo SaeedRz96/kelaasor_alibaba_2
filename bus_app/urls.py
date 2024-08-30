@@ -11,6 +11,11 @@ from bus_app.views import (
     NewTicketList,
     TerminalList,
     TerminalRetrieve,
+    CreateTerminal,
+    DeleteTerminal,
+    UpdateTerminal,
+    TerminalView,
+    TerminalDetails,
 )
 
 
@@ -25,5 +30,10 @@ urlpatterns = [
     path("neshan", neshan),
     path("new-ticket", NewTicketList.as_view()),
     path('terminal-list', TerminalList.as_view()),
-    path('terminal/<int:pk>', TerminalRetrieve.as_view())
+    path('terminal/<int:pk>', TerminalRetrieve.as_view()),
+    path('create-terminal', CreateTerminal.as_view()),
+    path('delete-terminal/<int:pk>', DeleteTerminal.as_view()),
+    path('update-terminal/<int:pk>', UpdateTerminal.as_view()),
+    path('terminal', TerminalView.as_view()),
+    path('terminal/<int:pk>', TerminalDetails.as_view()),
 ]

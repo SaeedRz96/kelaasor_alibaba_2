@@ -5,7 +5,15 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
 from .serializers import TicketSerializer, TerminalSerializer, TerminalListSerializer
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    RetrieveAPIView,
+    CreateAPIView,
+    DestroyAPIView,
+    UpdateAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 
 
 def welcome(request):
@@ -108,16 +116,15 @@ def neshan(request):
     api_key = "service.2f93c88dfc154d7bb5af4c160c4faa09"
     response = requests.get(url, headers={"Api-Key": api_key})
     return JsonResponse(
-        json.loads(response.content)['routes'][0]['legs'][0]['summary'],
-        safe=False
+        json.loads(response.content)["routes"][0]["legs"][0]["summary"], safe=False
     )
 
 
 class NewTicketList(ListAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
-    
-    
+
+
 class TerminalList(ListAPIView):
     queryset = Terminal.objects.all()
     serializer_class = TerminalListSerializer
@@ -126,4 +133,28 @@ class TerminalList(ListAPIView):
 class TerminalRetrieve(RetrieveAPIView):
     queryset = Terminal.objects.all()
     serializer_class = TerminalSerializer
-    
+
+
+class CreateTerminal(CreateAPIView):
+    queryset = Terminal.objects.all()
+    serializer_class = TerminalSerializer
+
+
+class DeleteTerminal(DestroyAPIView):
+    queryset = Terminal.objects.all()
+    serializer_class = TerminalSerializer
+
+
+class UpdateTerminal(UpdateAPIView):
+    queryset = Terminal.objects.all()
+    serializer_class = TerminalSerializer
+
+
+class TerminalView(ListCreateAPIView):
+    queryset = Terminal.objects.all()
+    serializer_class = TerminalSerializer
+
+
+class TerminalDetails(RetrieveUpdateDestroyAPIView):
+    queryset = Terminal.objects.all()
+    serializer_class = TerminalSerializer
