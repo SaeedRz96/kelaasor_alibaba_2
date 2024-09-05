@@ -14,6 +14,7 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 
 def welcome(request):
@@ -153,7 +154,13 @@ class UpdateTerminal(UpdateAPIView):
 class TerminalView(ListCreateAPIView):
     queryset = Terminal.objects.all()
     serializer_class = TerminalSerializer
-
+    
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            self.permission_classes = [IsAdminUser]
+        elif self.request.method == 'GET':
+            self.permission_classes = [IsAuthenticated]
+        return super(TerminalView, self).get_permissions()
 
 class TerminalDetails(RetrieveUpdateDestroyAPIView):
     queryset = Terminal.objects.all()
