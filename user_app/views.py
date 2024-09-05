@@ -3,6 +3,9 @@ from bus_app.models import Sale
 from rest_framework.generics import ListAPIView, DestroyAPIView, CreateAPIView
 from bus_app.serializers import SaleSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
+from .serializers import UserRegisterSerializer
+from .models import Wallet
 
 
 class Login(TokenObtainPairView):
@@ -40,3 +43,12 @@ class CreateSale(CreateAPIView):
     def perform_create(self, serializer):
         sale = serializer.save(user = self.request.user)
         return sale
+
+
+class Register(CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
+    
+    # def perform_create(self, serializer):
+    #     user = serializer.save()
+    #     Wallet.objects.create(user=user)

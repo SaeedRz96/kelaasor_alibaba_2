@@ -1,3 +1,6 @@
-from django.contrib import admin
+from django.contrib.admin import register, ModelAdmin
+from .models import Wallet
 
-# Register your models here.
+
+@register(Wallet)
+class WalletAdmin(ModelAdmin):...
