@@ -153,3 +153,11 @@ CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_ROUTES = {
     'bus_app.tasks.send_email_to_customer': {'queue': 'celery'},
 }
+
+CELERY_BEAT_SCHEDULE = {
+    'send_email_to_admin':
+        {
+            'task': 'bus_app.tasks.send_email_to_admin',
+            'schedule': timedelta(hours=5),
+        }
+}
