@@ -28,7 +28,7 @@ urlpatterns = [
     path("new-sale", new_sale),
     path("delete-sale/<str:sale_id>", delete_sale),
     path("neshan", neshan),
-    path("new-ticket", NewTicketList.as_view()),
+    path("ticket-list", NewTicketList.as_view()),
     path('terminal-list', TerminalList.as_view()),
     path('terminal/<int:pk>', TerminalRetrieve.as_view()),
     path('create-terminal', CreateTerminal.as_view()),

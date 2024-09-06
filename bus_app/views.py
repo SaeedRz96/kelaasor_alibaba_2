@@ -15,6 +15,8 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 
 def welcome(request):
@@ -124,6 +126,10 @@ def neshan(request):
 class NewTicketList(ListAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ["price", "capacity"]
+    search_fields = ["title"]
+    filterset_fields = ['source',"destination"]
 
 
 class TerminalList(ListAPIView):
@@ -154,13 +160,14 @@ class UpdateTerminal(UpdateAPIView):
 class TerminalView(ListCreateAPIView):
     queryset = Terminal.objects.all()
     serializer_class = TerminalSerializer
-    
+
     def get_permissions(self):
-        if self.request.method == 'POST':
+        if self.request.method == "POST":
             self.permission_classes = [IsAdminUser]
-        elif self.request.method == 'GET':
+        elif self.request.method == "GET":
             self.permission_classes = [IsAuthenticated]
         return super(TerminalView, self).get_permissions()
+
 
 class TerminalDetails(RetrieveUpdateDestroyAPIView):
     queryset = Terminal.objects.all()
