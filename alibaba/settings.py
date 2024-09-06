@@ -148,3 +148,8 @@ SIMPLE_JWT={
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
+CELERY_BROKER_URL = 'amqp://localhost'
+
+CELERY_ROUTES = {
+    'bus_app.tasks.send_email_to_customer': {'queue': 'celery'},
+}

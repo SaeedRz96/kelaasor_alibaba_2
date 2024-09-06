@@ -17,6 +17,7 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from .tasks import send_email_to_customer
 
 
 def welcome(request):
@@ -85,6 +86,8 @@ def sale(request, input_name, input_phone, input_ticket):
     )
     selected_ticket.capacity -= 1
     selected_ticket.save()
+    # send email to customer
+    send_email_to_customer.delay("customer_email")
     return HttpResponse("new ticket with name: {}".format(new_sale.name))
 
 
