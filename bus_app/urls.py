@@ -16,6 +16,7 @@ from bus_app.views import (
     UpdateTerminal,
     TerminalView,
     TerminalDetails,
+    add_terminal
 )
 
 
@@ -36,4 +37,5 @@ urlpatterns = [
     path('update-terminal/<int:pk>', UpdateTerminal.as_view()),
     path('terminal', TerminalView.as_view()),
     path('terminal/<int:pk>', TerminalDetails.as_view()),
+    path('add-terminal', add_terminal)
 ]

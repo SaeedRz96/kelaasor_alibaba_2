@@ -18,6 +18,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from .tasks import send_email_to_customer
+from .forms import TerminalForm
 
 
 def welcome(request):
@@ -129,10 +130,14 @@ def neshan(request):
 class NewTicketList(ListAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
     ordering_fields = ["price", "capacity"]
     search_fields = ["title"]
-    filterset_fields = ['source',"destination"]
+    filterset_fields = ["source", "destination"]
 
 
 class TerminalList(ListAPIView):
@@ -175,3 +180,11 @@ class TerminalView(ListCreateAPIView):
 class TerminalDetails(RetrieveUpdateDestroyAPIView):
     queryset = Terminal.objects.all()
     serializer_class = TerminalSerializer
+
+
+def add_terminal(request):
+    form = TerminalForm()
+    if request.method == 'POST':
+        form = TerminalForm(request.POST)
+        form.save()
+    return render(request, "bus_app/add_terminal.html", {"form": form})
